@@ -1,3 +1,4 @@
+using System;
 using EventSourcing.ValueObject;
 
 namespace EventSourcing.Aggregate;

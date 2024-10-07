@@ -1,3 +1,5 @@
+using System;
+
 namespace EventSourcing.Aggregate;
 
 public interface IEvent

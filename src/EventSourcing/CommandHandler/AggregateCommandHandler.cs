@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using EventSourcing.Aggregate;
 using EventSourcing.Command;
 using EventSourcing.Repository;

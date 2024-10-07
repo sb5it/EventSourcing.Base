@@ -1,3 +1,5 @@
+using System;
+
 namespace EventSourcing.Command;
 
 public interface ICommand
