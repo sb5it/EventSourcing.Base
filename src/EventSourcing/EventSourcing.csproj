@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>Sb5It.EventSourcing</PackageId>
+        <Version>0.0.1</Version>
+        <Title>Generic evensourcing library</Title>
+        <Authors>Sb5It.EventSourcing</Authors>
+    </PropertyGroup>
+
+</Project>
