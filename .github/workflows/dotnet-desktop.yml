@@ -19,14 +19,23 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    # Install GitVersion
+    - name: Install GitVersion
+      run: dotnet tool install --global GitVersion.Tool
+
+    # Get the version
+    - name: Get Version
+      id: gitversion
+      run: gitversion /showvariable SemVer
+
     # Restore dependencies
     - name: Restore dependencies
       run: dotnet restore src/EventSourcing.sln
 
     # Build the project (automatically creates the NuGet package)
     - name: Build
-      run: dotnet build src/EventSourcing.sln --configuration Release
+      run: dotnet build src/EventSourcing.sln --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
 
     # Publish the NuGet package to GitHub Packages
     - name: Publish NuGet package
-      run: dotnet nuget push src/EventSourcing/bin/Release/Sb5It.EventSourcing.0.0.1.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+      run: dotnet nuget push src/EventSourcing/bin/Release/Sb5It.EventSourcing.${{ steps.gitversion.outputs.SemVer }}.nupkg --api-key ${{ secrets.MY_PAT }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
