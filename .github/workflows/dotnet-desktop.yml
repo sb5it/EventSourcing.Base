@@ -29,4 +29,4 @@ jobs:
 
     # Publish the NuGet package to GitHub Packages
     - name: Publish NuGet package
-      run: dotnet nuget push src/EventSourcing/bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+      run: dotnet nuget push src/EventSourcing/bin/Release/Sb5It.EventSourcing.0.0.1.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
