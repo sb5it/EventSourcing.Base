@@ -19,25 +19,18 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    # Install GitVersion as a global tool
-    - name: Install GitVersion
-      run: |
-        dotnet tool install --global GitVersion.Tool
-        echo "$HOME/.dotnet/tools" >> $GITHUB_PATH  # Add to PATH
-
-    # Get the version
-    - name: Get Version
-      id: gitversion
-      run: gitversion /showvariable SemVer
-
     # Restore dependencies
     - name: Restore dependencies
       run: dotnet restore src/EventSourcing.sln
 
-    # Build the project with the dynamically retrieved version
+    # Build the project with a dynamically assigned version
     - name: Build
-      run: dotnet build src/EventSourcing.sln --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
+      run: dotnet build src/EventSourcing.sln --configuration Release /p:Version=0.0.${{ github.run_number }}
+
+    # Create the NuGet package
+    - name: Create NuGet package
+      run: dotnet pack src/EventSourcing/EventSourcing.csproj --configuration Release --output ./nuget /p:Version=0.0.${{ github.run_number }}
 
     # Publish the NuGet package to GitHub Packages
     - name: Publish NuGet package
-      run: dotnet nuget push src/EventSourcing/bin/Release/Sb5It.EventSourcing.${{ steps.gitversion.outputs.SemVer }}.nupkg --api-key ${{ secrets.MY_PAT }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+      run: dotnet nuget push ./nuget/Sb5It.EventSourcing.0.0.${{ github.run_number }}.nupkg --api-key ${{ secrets.MY_PAT }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
