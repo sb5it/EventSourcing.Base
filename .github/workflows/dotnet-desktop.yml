@@ -19,9 +19,11 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    # Install GitVersion
+    # Install GitVersion as a global tool
     - name: Install GitVersion
-      run: dotnet tool install --global GitVersion.Tool
+      run: |
+        dotnet tool install --global GitVersion.Tool
+        echo "$HOME/.dotnet/tools" >> $GITHUB_PATH  # Add to PATH
 
     # Get the version
     - name: Get Version
@@ -32,7 +34,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/EventSourcing.sln
 
-    # Build the project (automatically creates the NuGet package)
+    # Build the project with the dynamically retrieved version
     - name: Build
       run: dotnet build src/EventSourcing.sln --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
 
