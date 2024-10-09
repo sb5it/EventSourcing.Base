@@ -32,7 +32,7 @@ jobs:
       run: dotnet pack src/EventSourcing/EventSourcing.csproj --configuration Release --output ./nuget /p:Version=0.0.${{ github.run_number }}
 
     - name: List nuget directory
-    run: ls nuget
+      run: ls nuget
 
     # Publish the NuGet package to GitHub Packages
     - name: Publish NuGet package
